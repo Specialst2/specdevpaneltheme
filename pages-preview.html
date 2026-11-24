@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>Spec UI · Server and Account Pages</title>
+    <link rel="icon" href="./theme/assets/spec-mark.png" type="image/png">
+    <link rel="stylesheet" href="./theme/spec-ui.css">
+    <link rel="stylesheet" href="./preview-pages.css">
+</head>
+<body class="spec-pages-preview">
+    <svg class="preview-icons" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+            <symbol id="file-icon" viewBox="0 0 24 24"><path d="M5 3h9l5 5v13H5zM14 3v6h5M8 13h8m-8 4h8"/></symbol>
+            <symbol id="folder-icon" viewBox="0 0 24 24"><path d="M3 6h7l2 2h9v11H3z"/></symbol>
+            <symbol id="dashboard-icon" viewBox="0 0 24 24">
+                <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+                <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+            </symbol>
+            <symbol id="account-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="2.75"/><path d="M6.5 18a5.5 5.5 0 0 1 11 0"/></symbol>
+            <symbol id="admin-icon" viewBox="0 0 24 24"><path d="M12 2v3m0 14v3m10-10h-3M5 12H2m17.1-7.1L17 7m-10 10-2.1 2.1M19.1 19.1 17 17M7 7 4.9 4.9"/><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.5"/></symbol>
+            <symbol id="sign-in-icon" viewBox="0 0 24 24"><path d="M11 5H5v14h6m-1-7h10m-4-4 4 4-4 4"/></symbol>
+        </defs>
+    </svg>
+    <div id="app">
+        <div>
+            <div role="banner">
+                <div>
+                    <div id="logo"><a href="./preview.html">Spec Development</a></div>
+                    <div role="navigation" aria-label="Panel">
+                        <a href="./preview.html" aria-label="Dashboard"><svg class="preview-icon" aria-hidden="true"><use href="#dashboard-icon"/></svg></a>
+                        <a href="./admin-preview.html" aria-label="Admin" title="Admin"><svg class="preview-icon" aria-hidden="true"><use href="#admin-icon"/></svg></a>
+                        <a href="#account" aria-label="Account settings" title="Account settings"><svg class="preview-icon" aria-hidden="true"><use href="#account-icon"/></svg></a>
+                        <a href="./auth-preview.html" aria-label="Sign-in preview" title="Sign-in preview"><svg class="preview-icon" aria-hidden="true"><use href="#sign-in-icon"/></svg></a>
+                    </div>
+                </div>
+            </div>
+            <div class="preview-subnav preview-server-links" role="navigation" aria-label="Server">
+                <div>
+                    <a href="./console-preview.html">Console</a>
+                    <a href="#files">Files</a>
+                    <a href="#databases">Databases</a>
+                    <a href="#schedules">Schedules</a>
+                    <a href="#users">Users</a>
+                    <a href="#backups">Backups</a>
+                    <a href="#network">Network</a>
+                    <a href="#startup">Startup</a>
+                    <a href="#settings">Settings</a>
+                    <a href="#activity">Activity</a>
+                    <a href="./admin-preview.html#server">Admin</a>
+                </div>
+            </div>
+            <div class="preview-subnav preview-account-links" role="navigation" aria-label="Account">
+                <div>
+                    <a href="#account">Account</a>
+                    <a href="#api-credentials">API Credentials</a>
+                    <a href="#ssh-keys">SSH Keys</a>
+                    <a href="#account-activity">Activity</a>
+                    <a href="./console-preview.html">Server console</a>
+                </div>
+            </div>
+            <main>
+                <section aria-label="Panel preview">
+                    <div>
+                        <article class="preview-view" id="files">
+                            <h1>Files</h1>
+                            <div class="preview-toolbar">
+                                <p class="preview-path">/ home / container /</p>
+                                <div class="preview-actions">
+                                    <button class="preview-button" type="button" disabled>Create Directory</button>
+                                    <button class="preview-button" type="button" disabled>Upload</button>
+                                    <a class="preview-button preview-primary" href="#new-file">New File</a>
+                                </div>
+                            </div>
+                            <div class="preview-list">
+                                <div class="preview-row spec-file-row">
+                                    <input type="checkbox" aria-label="Select index.js" disabled>
+                                    <svg class="preview-icon" aria-hidden="true"><use href="#file-icon"/></svg>
+                                    <a href="#file-editor">index.js</a>
+                                    <span class="preview-meta preview-file-size">86 Bytes</span>
+                                    <time class="preview-meta" datetime="2026-11-24T10:00:00+03:00">Today, 10:00</time>
+                                </div>
+                                <div class="preview-row spec-file-row">
+                                    <input type="checkbox" aria-label="Select package.json" disabled>
+                                    <svg class="preview-icon" aria-hidden="true"><use href="#file-icon"/></svg>
+                                    <span class="preview-row-label">package.json</span>
+                                    <span class="preview-meta preview-file-size">495 Bytes</span>
+                                    <time class="preview-meta" datetime="2026-11-24T10:00:00+03:00">Today, 10:00</time>
+                                </div>
+                                <div class="preview-row spec-file-row">
+                                    <input type="checkbox" aria-label="Select logs" disabled>
+                                    <svg class="preview-icon" aria-hidden="true"><use href="#folder-icon"/></svg>
+                                    <span class="preview-row-label">logs</span>
+                                    <span class="preview-meta preview-file-size">—</span>
+                                    <time class="preview-meta" datetime="2026-11-24T10:05:00+03:00">Today, 10:05</time>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="preview-view" id="file-editor">
+                            <h1>index.js</h1>
+                            <div class="preview-toolbar">
+                                <p class="preview-path"><a href="#files">Files</a> / index.js</p>
+                                <button class="preview-button" type="button" disabled>Save Content</button>
+                            </div>
+                            <textarea class="spec-code" aria-label="index.js contents" readonly>console.log("Server ready");</textarea>
+                        </article>
+
+                        <article class="preview-view" id="new-file">
+                            <h1>New File</h1>
+                            <div class="preview-toolbar">
+                                <p class="preview-path"><a href="#files">Files</a> / New File</p>
+                                <button class="preview-button" type="button" disabled>Create File</button>
+                            </div>
+                            <textarea class="spec-code" aria-label="New file content" placeholder="File contents" readonly></textarea>
+                        </article>
+
+                        <article class="preview-view" id="databases">
+                            <h1>Databases</h1>
+                            <div class="preview-toolbar">
+                                <p class="preview-meta">1 of 3 databases</p>
+                                <button class="preview-button preview-primary" type="button" disabled>New Database</button>
+                            </div>
+                            <div class="preview-row spec-panel">
+                                <strong class="preview-row-label">survival_world</strong>
+                                <span class="preview-meta">db.example.net:3306</span>
+                                <button class="preview-button" type="button" disabled>Connection Details</button>
+                            </div>
+                        </article>
+
+                        <article class="preview-view" id="schedules">
+                            <h1>Schedules</h1>
+                            <div class="preview-toolbar">
+                                <p class="preview-meta">Survival SMP</p>
+                                <button class="preview-button preview-primary" type="button" disabled>Create Schedule</button>
+                            </div>
+                            <a class="preview-row spec-panel spec-row-link" href="#schedule-detail">
+                                <strong class="preview-row-label">Nightly Backup</strong>
+                                <code>0 3 * * *</code>
+                                <span class="preview-chip">Active</span>
+                            </a>
+                        </article>
+
+                        <article class="preview-view" id="schedule-detail">
+                            <h1>Nightly Backup</h1>
+                            <div class="preview-toolbar">
+                                <p class="preview-path"><a href="#schedules">Schedules</a> / Nightly Backup</p>
+                                <button class="preview-button" type="button" disabled>Run Now</button>
+                            </div>
+                            <div class="spec-panel preview-panel">
+                                <h2>Schedule</h2>
+                                <dl class="preview-kv"><dt>Cron</dt><dd><code>0 3 * * *</code></dd><dt>State</dt><dd>Active</dd><dt>Task</dt><dd>Create backup</dd></dl>
+                            </div>
+                        </article>
+
+                        <article class="preview-view" id="users">
+                            <h1>Users</h1>
+                            <div class="preview-toolbar">
+                                <p class="preview-meta">Survival SMP</p>
+                                <button class="preview-button preview-primary" type="button" disabled>New User</button>
+                            </div>
+                            <div class="preview-row spec-panel">
+                                <strong class="preview-row-label">player@example.net</strong>
+                                <span class="preview-meta">4 permissions</span>
+                                <button class="preview-button" type="button" disabled>Edit Permissions</button>
+                            </div>
+                        </article>
+
+                        <article class="preview-view" id="backups">
+                            <h1>Backups</h1>
+                            <div class="preview-toolbar">
+                                <p class="preview-meta">2 of 3 backups</p>
+                                <button class="preview-button preview-primary" type="button" disabled>Create Backup</button>
+                            </div>
+                            <div class="preview-list">
+                                <div class="preview-row spec-panel"><strong class="preview-row-label">Nightly backup</strong><span class="preview-meta">1.24 GiB</span><span class="preview-chip">Complete</span></div>
+                                <div class="preview-row spec-panel"><strong class="preview-row-label">Before world update</strong><span class="preview-meta">1.18 GiB</span><span class="preview-chip">Complete</span></div>
+                            </div>
+                        </article>
+
+                        <article class="preview-view" id="network">
+                            <h1>Network</h1>
+                            <div class="preview-toolbar">
+                                <p class="preview-meta">2 of 3 allocations</p>
+                                <button class="preview-button preview-primary" type="button" disabled>Create Allocation</button>
+                            </div>
+                            <div class="preview-list">
+                                <div class="preview-row spec-panel"><strong class="preview-row-label">survival.example.net:25565</strong><span class="preview-chip">Primary</span></div>
+                                <div class="preview-row spec-panel"><strong class="preview-row-label">192.0.2.10:25566</strong><span class="preview-meta">Test port</span></div>
+                            </div>
+                        </article>
+
+                        <article class="preview-view" id="startup">
+                            <h1>Startup</h1>
+                            <div class="preview-grid">
+                                <section class="preview-panel spec-panel"><h2>Startup Command</h2><p><code>java -Xms128M -jar server.jar nogui</code></p></section>
+                                <section class="preview-panel preview-form spec-panel"><h2>Docker Image</h2><label>Image<select disabled><option>Java 21</option></select></label></section>
+                                <section class="preview-panel preview-form spec-panel"><h2>Server JAR File</h2><label>File name<input value="server.jar" readonly></label></section>
+                                <section class="preview-panel preview-form spec-panel"><h2>Minecraft Version</h2><label>Version<input value="1.21" readonly></label></section>
+                            </div>
+                        </article>
+
+                        <article class="preview-view" id="settings">
+                            <h1>Settings</h1>
+                            <div class="preview-grid">
+                                <section class="preview-panel preview-form spec-panel"><h2>SFTP Details</h2><label>Server address<input value="sftp://node.example.net:2022" readonly></label><label>Username<input value="demo-server" readonly></label></section>
+                                <section class="preview-panel preview-form spec-panel"><h2>Change Server Details</h2><label>Server name<input value="Survival SMP" readonly></label><label>Description <textarea rows="2" readonly>Paper · Minecraft 1.21</textarea></label><button class="preview-button" type="button" disabled>Save</button></section>
+                            </div>
+                        </article>
+
+                        <article class="preview-view" id="activity">
+                            <h1>Activity</h1>
+                            <div class="preview-panel spec-panel">
+                                <div class="preview-activity"><span class="preview-meta">Today, 10:05</span><p><strong>Server started</strong> by the server owner</p></div>
+                                <div class="preview-activity"><span class="preview-meta">Today, 10:00</span><p><strong>Files updated</strong> in /home/container</p></div>
+                                <div class="preview-activity"><span class="preview-meta">Today, 03:00</span><p><strong>Backup created</strong> by Nightly Backup</p></div>
+                            </div>
+                        </article>
+
+                        <article class="preview-view preview-account" id="account">
+                            <h1>Account</h1>
+                            <div class="preview-grid">
+                                <section class="preview-panel preview-form spec-panel"><h2>Update Password</h2><label>Current password<input type="password" readonly></label><label>New password<input type="password" readonly></label><button class="preview-button" type="button" disabled>Update Password</button></section>
+                                <section class="preview-panel preview-form spec-panel"><h2>Update Email Address</h2><label>Email address<input type="email" value="owner@example.net" readonly></label><button class="preview-button" type="button" disabled>Update Email</button></section>
+                                <section class="preview-panel preview-form spec-panel"><h2>Two-Step Verification</h2><p>Manage the sign-in verification method for your account.</p><button class="preview-button" type="button" disabled>Configure</button></section>
+                            </div>
+                        </article>
+
+                        <article class="preview-view preview-account" id="api-credentials">
+                            <h1>API Credentials</h1>
+                            <div class="preview-grid">
+                                <section class="preview-panel preview-form spec-panel"><h2>Create API Key</h2><label>Description<input placeholder="Local tooling" readonly></label><label>Allowed IPs<textarea rows="3" readonly></textarea></label><button class="preview-button" type="button" disabled>Create Key</button></section>
+                                <section class="preview-panel spec-panel"><h2>API Keys</h2><p>Local tooling</p><p class="preview-meta">Never used</p></section>
+                            </div>
+                        </article>
+
+                        <article class="preview-view preview-account" id="ssh-keys">
+                            <h1>SSH Keys</h1>
+                            <div class="preview-grid">
+                                <section class="preview-panel preview-form spec-panel"><h2>Add SSH Key</h2><label>Key name<input placeholder="Work laptop" readonly></label><label>Public key<textarea rows="4" readonly></textarea></label><button class="preview-button" type="button" disabled>Add Key</button></section>
+                                <section class="preview-panel spec-panel"><h2>SSH Keys</h2><p>Work laptop</p><p class="preview-meta">Sample public key</p></section>
+                            </div>
+                        </article>
+
+                        <article class="preview-view preview-account" id="account-activity">
+                            <h1>Activity</h1>
+                            <div class="preview-panel spec-panel">
+                                <div class="preview-activity"><span class="preview-meta">Today, 09:58</span><p><strong>Signed in</strong> from a new session</p></div>
+                                <div class="preview-activity"><span class="preview-meta">Yesterday, 17:15</span><p><strong>SSH key added</strong> for Work laptop</p></div>
+                            </div>
+                        </article>
+                    </div>
+                    <div><p><a href="https://pterodactyl.io" rel="noreferrer">Pterodactyl®</a> · Sample data</p></div>
+                </section>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

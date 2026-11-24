@@ -1,15 +1,19 @@
 # Spec UI
 
-A dashboard and server console theme for Spec Development on Pterodactyl Panel 1.x. Spec UI uses vanilla CSS, bundled Inter typography and the Spec Development mark.
+A panel theme for Spec Development on Pterodactyl Panel 1.x. Spec UI uses vanilla CSS, bundled Inter typography and the Spec Development mark.
 
 ## Local previews
 
-Open either HTML file directly in Safari or Chrome on your Mac.
+Open the dashboard directly in Safari or Chrome, then select Survival SMP to try the console and its server tabs.
 
 - [Dashboard preview](preview.html)
 - [Server console preview](console-preview.html)
+- [Files and server tools](pages-preview.html#files)
+- [Account pages](pages-preview.html#account)
+- [Sign-in and password recovery](auth-preview.html)
+- [Administration preview](admin-preview.html)
 
-Both use sample data, the shared stylesheet and bundled assets. The console preview shows sample logs and resource history with read-only controls.
+The previews work offline with sample data, the shared stylesheet and bundled assets. Navigation opens the matching preview. Controls for changing panel data are read-only.
 
 ## Customize
 
@@ -29,6 +33,6 @@ Install and update publish the CSS and bundled assets to a versioned directory u
 
 Uninstall removes the marked link and installed theme files, preserving other contents of the Blade include and unrelated files. If the panel already has a manual Spec UI link and asset copy, remove the link and move that copy aside before running the installer.
 
-The panel loads its existing frontend bundle alongside the stylesheet. The integration was checked against the shipped dashboard and console in [Pterodactyl Panel v1.15.2](https://github.com/pterodactyl/panel/releases/tag/v1.15.2).
+The panel loads its existing frontend bundle alongside the stylesheet. The integration was checked against the shipped server, account, authentication and administration interfaces in [Pterodactyl Panel v1.15.2](https://github.com/pterodactyl/panel/releases/tag/v1.15.2).
 
 Inter is distributed under the [SIL Open Font License](theme/assets/Inter-OFL.txt).

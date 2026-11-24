@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>Spec UI · Sign-in Preview</title>
+    <link rel="icon" href="./theme/assets/spec-mark.png" type="image/png">
+    <link rel="stylesheet" href="./theme/spec-ui.css">
+    <link rel="stylesheet" href="./preview-pages.css">
+</head>
+<body class="spec-auth-preview">
+    <main id="app">
+        <div class="spec-auth-form">
+            <article class="spec-auth-card preview-view" id="sign-in">
+                <img src="./theme/assets/spec-mark.png" alt="Spec Development">
+                <h1>Sign in</h1>
+                <form class="preview-form">
+                    <label>Username or email<input name="user" type="text" autocomplete="off" readonly></label>
+                    <label>Password<input name="password" type="password" autocomplete="off" readonly></label>
+                    <button class="preview-button" type="button" disabled>Sign in</button>
+                </form>
+                <div class="preview-auth-links">
+                    <a href="#forgot-password">Forgot password</a>
+                    <a href="#checkpoint">Two-step verification</a>
+                    <a href="./preview.html">Dashboard preview</a>
+                </div>
+            </article>
+            <article class="spec-auth-card preview-view" id="forgot-password">
+                <img src="./theme/assets/spec-mark.png" alt="Spec Development">
+                <h1>Forgot password</h1>
+                <form class="preview-form">
+                    <label>Email address<input name="email" type="email" autocomplete="off" readonly></label>
+                    <button class="preview-button" type="button" disabled>Send reset link</button>
+                </form>
+                <div class="preview-auth-links"><a href="#sign-in">Sign in</a><a href="#reset-password">Reset password preview</a></div>
+            </article>
+            <article class="spec-auth-card preview-view" id="reset-password">
+                <img src="./theme/assets/spec-mark.png" alt="Spec Development">
+                <h1>Reset password</h1>
+                <form class="preview-form">
+                    <label>Email address<input name="email" type="email" autocomplete="off" readonly></label>
+                    <label>New password<input name="new-password" type="password" autocomplete="off" readonly></label>
+                    <label>Confirm password<input name="confirm-password" type="password" autocomplete="off" readonly></label>
+                    <button class="preview-button" type="button" disabled>Reset password</button>
+                </form>
+                <div class="preview-auth-links"><a href="#sign-in">Sign in</a></div>
+            </article>
+            <article class="spec-auth-card preview-view" id="checkpoint">
+                <img src="./theme/assets/spec-mark.png" alt="Spec Development">
+                <h1>Two-step verification</h1>
+                <form class="preview-form">
+                    <label>Verification code<input name="code" type="text" inputmode="numeric" autocomplete="off" readonly></label>
+                    <button class="preview-button" type="button" disabled>Verify code</button>
+                </form>
+                <div class="preview-auth-links"><a href="#sign-in">Sign in</a></div>
+            </article>
+        </div>
+    </main>
+</body>
+</html>

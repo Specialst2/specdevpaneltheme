@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>Spec UI · Administration Preview</title>
+    <link rel="icon" href="./theme/assets/spec-mark.png" type="image/png">
+    <link rel="stylesheet" href="./theme/spec-ui.css">
+    <link rel="stylesheet" href="./preview-pages.css">
+</head>
+<body class="spec-admin-preview">
+    <div class="wrapper">
+        <header class="main-header">
+            <a class="logo" href="./preview.html"><img src="./theme/assets/spec-mark.png" alt="">Spec Development</a>
+            <a class="preview-button" href="./preview.html">Dashboard</a>
+        </header>
+        <div class="preview-admin-layout">
+            <aside class="main-sidebar">
+                <nav aria-label="Administration">
+                    <ul class="sidebar-menu">
+                        <li><a href="#overview">Overview</a></li>
+                        <li><a href="#servers">Servers</a></li>
+                        <li><a href="#server">Server details</a></li>
+                        <li><a href="#build">Build configuration</a></li>
+                    </ul>
+                </nav>
+            </aside>
+            <main class="content-wrapper">
+                <article class="preview-view" id="overview">
+                    <h1>Administration</h1>
+                    <div class="preview-grid">
+                        <section class="box">
+                            <h2>Servers</h2>
+                            <p class="preview-meta">6 servers across 2 nodes</p>
+                            <p><a class="preview-button" href="#servers">View servers</a></p>
+                        </section>
+                        <section class="box">
+                            <h2>Panel</h2>
+                            <dl class="preview-kv"><dt>Version</dt><dd>1.15.2</dd><dt>Theme</dt><dd>Spec UI</dd></dl>
+                        </section>
+                    </div>
+                </article>
+                <article class="preview-view" id="servers">
+                    <h1>Servers</h1>
+                    <div class="box preview-list">
+                        <a class="preview-row spec-row-link" href="#server"><strong class="preview-row-label">Survival SMP</strong><span class="preview-meta">Preview node</span></a>
+                        <div class="preview-row"><strong class="preview-row-label">Staging Proxy</strong><span class="preview-meta">Preview node</span></div>
+                    </div>
+                </article>
+                <article class="preview-view" id="server">
+                    <h1>Survival SMP</h1>
+                    <div class="preview-admin-tabs" aria-label="Server administration">
+                        <a class="preview-button preview-primary" href="#server" aria-current="page">About</a>
+                        <a class="preview-button" href="#build">Build Configuration</a>
+                        <a class="preview-button" href="./console-preview.html">Console</a>
+                    </div>
+                    <div class="preview-grid">
+                        <section class="box"><h2>Information</h2><dl class="preview-kv"><dt>Name</dt><dd>Survival SMP</dd><dt>Node</dt><dd>Preview node</dd><dt>Owner</dt><dd>owner@example.net</dd><dt>Allocation</dt><dd>survival.example.net:25565</dd></dl></section>
+                        <section class="box"><h2>Resource Limits</h2><dl class="preview-kv"><dt>CPU</dt><dd>200%</dd><dt>Memory</dt><dd>8 GiB</dd><dt>Disk</dt><dd>40 GiB</dd></dl></section>
+                    </div>
+                </article>
+                <article class="preview-view" id="build">
+                    <h1>Build Configuration</h1>
+                    <div class="preview-admin-tabs" aria-label="Server administration">
+                        <a class="preview-button" href="#server">About</a>
+                        <a class="preview-button preview-primary" href="#build" aria-current="page">Build Configuration</a>
+                        <a class="preview-button" href="./console-preview.html">Console</a>
+                    </div>
+                    <section class="box preview-form">
+                        <h2>Allocation and limits</h2>
+                        <label>CPU (%)<input class="form-control" type="number" value="200" readonly></label>
+                        <label>Memory (MiB)<input class="form-control" type="number" value="8192" readonly></label>
+                        <label>Disk (MiB)<input class="form-control" type="number" value="40960" readonly></label>
+                        <button class="preview-button" type="button" disabled>Save</button>
+                    </section>
+                </article>
+                <p class="preview-meta">Sample data</p>
+            </main>
+        </div>
+    </div>
+</body>
+</html>
