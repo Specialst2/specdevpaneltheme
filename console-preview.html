@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>Spec UI · Server Console Preview</title>
+    <link rel="icon" href="./theme/assets/spec-mark.png" type="image/png">
+    <link rel="stylesheet" href="./theme/spec-ui.css">
+    <style>
+        /* Stand-ins for the panel reset, terminal output and chart canvases. */
+        *, *::before, *::after { box-sizing: border-box; }
+        button, input { font: inherit; }
+        .preview-icons { position: absolute; width: 0; height: 0; }
+        #app svg {
+            flex: none;
+            width: 1em;
+            height: 1em;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.75;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        .preview-terminal { position: relative; }
+        .preview-terminal pre {
+            max-height: 100%;
+            margin: 0;
+            overflow: auto;
+            color: var(--spec-text);
+            font: 0.75rem/1.55 ui-monospace, "SFMono-Regular", monospace;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+        .preview-terminal pre span { color: var(--spec-muted); }
+        .preview-command { position: relative; }
+        .preview-command > div {
+            position: absolute;
+            inset: 0 auto 0 0.875rem;
+            display: grid;
+            place-items: center;
+        }
+        .preview-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 0;
+            color: var(--spec-muted);
+            font-size: 0.6875rem;
+        }
+        .preview-chart {
+            display: grid;
+            grid-template-columns: auto minmax(0, 1fr);
+            gap: 0.5rem;
+            height: 10rem;
+        }
+        .preview-ticks {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: var(--spec-muted);
+            font-size: 0.6875rem;
+            font-variant-numeric: tabular-nums;
+        }
+        .preview-plot {
+            position: relative;
+            margin: 0.375rem 0;
+            border-block: 1px solid var(--spec-border);
+            background: linear-gradient(var(--spec-border), var(--spec-border)) center / 100% 1px no-repeat;
+        }
+        .preview-plot > span {
+            position: absolute;
+            inset: 0;
+            clip-path: var(--series);
+            background: linear-gradient(#bbb, #5e5e5e);
+        }
+        .preview-plot > span + span {
+            background: linear-gradient(#f5f5f5, #959595);
+        }
+    </style>
+</head>
+<body class="spec-console-preview">
+    <svg class="preview-icons" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+            <symbol id="icon-search" viewBox="0 0 24 24">
+                <circle cx="10.5" cy="10.5" r="5.75"/><path d="m15 15 5 5"/>
+            </symbol>
+            <symbol id="icon-dashboard" viewBox="0 0 24 24">
+                <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+                <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+            </symbol>
+            <symbol id="icon-admin" viewBox="0 0 24 24">
+                <path d="M12 2v3m0 14v3m10-10h-3M5 12H2m17.1-7.1L17 7m-10 10-2.1 2.1M19.1 19.1 17 17M7 7 4.9 4.9"/>
+                <circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.5"/>
+            </symbol>
+            <symbol id="icon-account" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="2.75"/>
+                <path d="M6.5 18a5.5 5.5 0 0 1 11 0"/>
+            </symbol>
+            <symbol id="icon-logout" viewBox="0 0 24 24">
+                <path d="M11 5H5v14h6m-1-7h10m-4-4 4 4-4 4"/>
+            </symbol>
+            <symbol id="icon-address" viewBox="0 0 24 24">
+                <path d="M3 9a14 14 0 0 1 18 0M6 12a9 9 0 0 1 12 0m-9 3a4.5 4.5 0 0 1 6 0m-3 3h.01"/>
+            </symbol>
+            <symbol id="icon-clock" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3 2"/>
+            </symbol>
+            <symbol id="icon-cpu" viewBox="0 0 24 24">
+                <rect x="6" y="6" width="12" height="12" rx="2"/><path d="M10 10h4v4h-4zM9 3v3m6-3v3m-6 12v3m6-3v3M3 9h3m-3 6h3m12-6h3m-3 6h3"/>
+            </symbol>
+            <symbol id="icon-memory" viewBox="0 0 24 24">
+                <rect x="3" y="6" width="18" height="11" rx="2"/><path d="M7 10v3m5-3v3m5-3v3M6 17v3m4-3v3m4-3v3m4-3v3"/>
+            </symbol>
+            <symbol id="icon-disk" viewBox="0 0 24 24">
+                <rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 13h18M7 16h.01M11 16h.01"/>
+            </symbol>
+            <symbol id="icon-inbound" viewBox="0 0 24 24">
+                <path d="M12 3v12m-4-4 4 4 4-4M4 16v4h16v-4"/>
+            </symbol>
+            <symbol id="icon-outbound" viewBox="0 0 24 24">
+                <path d="M12 15V3m-4 4 4-4 4 4M4 16v4h16v-4"/>
+            </symbol>
+            <symbol id="icon-prompt" viewBox="0 0 24 24">
+                <path d="m6 6 6 6-6 6m6-12 6 6-6 6"/>
+            </symbol>
+        </defs>
+    </svg>
+
+    <div id="app">
+        <div>
+            <div role="banner">
+                <div>
+                    <div id="logo"><a href="./preview.html">Spec Development</a></div>
+                    <div role="navigation" aria-label="Panel">
+                        <button class="navigation-link" type="button" aria-label="Search" disabled>
+                            <svg aria-hidden="true"><use href="#icon-search"/></svg>
+                        </button>
+                        <a href="./preview.html" aria-label="Dashboard">
+                            <svg aria-hidden="true"><use href="#icon-dashboard"/></svg>
+                        </a>
+                        <button type="button" aria-label="Admin" title="Admin" disabled>
+                            <svg aria-hidden="true"><use href="#icon-admin"/></svg>
+                        </button>
+                        <button type="button" aria-label="Account settings" title="Account settings" disabled>
+                            <svg aria-hidden="true"><use href="#icon-account"/></svg>
+                        </button>
+                        <button type="button" aria-label="Sign out" title="Sign out" disabled>
+                            <svg aria-hidden="true"><use href="#icon-logout"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div role="navigation" aria-label="Server">
+                <div>
+                    <a href="#console" aria-current="page">Console</a>
+                    <a role="link" aria-disabled="true">Files</a>
+                    <a role="link" aria-disabled="true">Databases</a>
+                    <a role="link" aria-disabled="true">Schedules</a>
+                    <a role="link" aria-disabled="true">Users</a>
+                    <a role="link" aria-disabled="true">Backups</a>
+                    <a role="link" aria-disabled="true">Network</a>
+                    <a role="link" aria-disabled="true">Startup</a>
+                    <a role="link" aria-disabled="true">Settings</a>
+                    <a role="link" aria-disabled="true">Activity</a>
+                </div>
+            </div>
+
+            <main>
+                <section aria-labelledby="server-name">
+                    <div>
+                        <div class="grid-cols-4">
+                            <div>
+                                <h1 id="server-name">Survival SMP</h1>
+                                <p>Paper · Minecraft 1.21</p>
+                            </div>
+                            <div>
+                                <div role="group" aria-label="Power controls">
+                                    <button type="button" disabled>Start</button>
+                                    <button type="button" aria-disabled="true">Restart</button>
+                                    <button type="button" aria-disabled="true">Stop</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid-cols-4">
+                            <div style="display: flex">
+                                <div class="preview-terminal" id="console" role="region" aria-label="Console">
+                                    <div>
+                                        <div class="h-full">
+                                            <pre><span>container@pterodactyl~</span> Server marked as starting...
+<span>[14:08:21 INFO]:</span> Starting Minecraft server on *:25565
+<span>[14:08:21 INFO]:</span> Loading Paper for Minecraft 1.21
+<span>[14:08:22 INFO]:</span> Loading server properties
+<span>[14:08:23 INFO]:</span> Preparing level "world"
+<span>[14:08:24 INFO]:</span> Preparing spawn area
+<span>[14:08:26 INFO]:</span> Done (4.468s)! For help, type "help"
+<span>container@pterodactyl~</span> Server marked as running...
+<span>[14:11:02 INFO]:</span> Arden joined the game
+<span>[14:21:05 INFO]:</span> Rowan joined the game
+<span>[14:24:31 INFO]:</span> Saving the game
+<span>[14:24:31 INFO]:</span> Saved the game</pre>
+                                        </div>
+                                    </div>
+                                    <div class="preview-command">
+                                        <input type="text" aria-label="Console command input." placeholder="Type a command..." readonly>
+                                        <div><svg aria-hidden="true"><use href="#icon-prompt"/></svg></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid-cols-6" role="region" aria-label="Server details">
+                                <div>
+                                    <div></div>
+                                    <div><svg aria-hidden="true"><use href="#icon-address"/></svg></div>
+                                    <div><p>Address</p><div>survival.example.net:25565</div></div>
+                                </div>
+                                <div>
+                                    <div></div>
+                                    <div><svg aria-hidden="true"><use href="#icon-clock"/></svg></div>
+                                    <div><p>Uptime</p><div>2d 4h 37m</div></div>
+                                </div>
+                                <div>
+                                    <div></div>
+                                    <div><svg aria-hidden="true"><use href="#icon-cpu"/></svg></div>
+                                    <div><p>CPU Load</p><div>16.80% <span>/ 200%</span></div></div>
+                                </div>
+                                <div>
+                                    <div></div>
+                                    <div><svg aria-hidden="true"><use href="#icon-memory"/></svg></div>
+                                    <div><p>Memory</p><div>2.74 GiB <span>/ 8 GiB</span></div></div>
+                                </div>
+                                <div>
+                                    <div></div>
+                                    <div><svg aria-hidden="true"><use href="#icon-disk"/></svg></div>
+                                    <div><p>Disk</p><div>13.6 GiB <span>/ 40 GiB</span></div></div>
+                                </div>
+                                <div>
+                                    <div></div>
+                                    <div><svg aria-hidden="true"><use href="#icon-inbound"/></svg></div>
+                                    <div><p>Network (Inbound)</p><div>119.99 MiB</div></div>
+                                </div>
+                                <div>
+                                    <div></div>
+                                    <div><svg aria-hidden="true"><use href="#icon-outbound"/></svg></div>
+                                    <div><p>Network (Outbound)</p><div>41.44 MiB</div></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid" role="region" aria-label="Resource history">
+                            <div>
+                                <div><h3>CPU Load</h3></div>
+                                <div class="preview-chart" role="img" aria-label="Sample CPU usage varies between 14% and 48%.">
+                                    <div class="preview-ticks" aria-hidden="true"><span>200%</span><span>100%</span><span>0%</span></div>
+                                    <div class="preview-plot" aria-hidden="true">
+                                        <span style="--series: polygon(0 93%, 8% 90%, 17% 92%, 25% 82%, 33% 88%, 42% 79%, 50% 85%, 58% 89%, 67% 76%, 75% 83%, 83% 89%, 92% 87%, 100% 92%, 100% 100%, 0 100%)"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div><h3>Memory</h3></div>
+                                <div class="preview-chart" role="img" aria-label="Sample memory usage rises to 2.74 GiB.">
+                                    <div class="preview-ticks" aria-hidden="true"><span>8 GiB</span><span>4 GiB</span><span>0 GiB</span></div>
+                                    <div class="preview-plot" aria-hidden="true">
+                                        <span style="--series: polygon(0 86%, 8% 86%, 17% 83%, 25% 74%, 33% 73%, 42% 74%, 50% 71%, 58% 67%, 67% 69%, 75% 63%, 83% 62%, 92% 64%, 100% 66%, 100% 100%, 0 100%)"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <h3>Network</h3>
+                                    <p class="preview-legend" aria-label="Legend"><span>↓ Inbound</span><span>↑ Outbound</span></p>
+                                </div>
+                                <div class="preview-chart" role="img" aria-label="Sample inbound network usage is higher than outbound usage.">
+                                    <div class="preview-ticks" aria-hidden="true"><span>1.2 MiB</span><span>600 KiB</span><span>0 B</span></div>
+                                    <div class="preview-plot" aria-hidden="true">
+                                        <span style="--series: polygon(0 83%, 8% 62%, 17% 68%, 25% 45%, 33% 50%, 42% 28%, 50% 56%, 58% 34%, 67% 45%, 75% 13%, 83% 38%, 92% 49%, 100% 32%, 100% 100%, 0 100%)"></span>
+                                        <span style="--series: polygon(0 97%, 8% 94%, 17% 96%, 25% 88%, 33% 90%, 42% 75%, 50% 92%, 58% 83%, 67% 87%, 75% 64%, 83% 82%, 92% 91%, 100% 81%, 100% 100%, 0 100%)"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <p><a href="https://pterodactyl.io" rel="noreferrer">Pterodactyl®</a> · Sample data</p>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+</body>
+</html>
