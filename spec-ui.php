@@ -5,7 +5,7 @@ declare(strict_types=1);
 const THEME_FILES = [
     'spec-ui.css',
     'assets/spec-mark.png',
-    'assets/Inter-Variable.ttf',
+    'assets/Inter-Variable.woff2',
     'assets/Inter-OFL.txt',
 ];
 
@@ -70,7 +70,8 @@ function removeIfEmpty(string $dir): void
 
 function removeReleaseFiles(string $dir): void
 {
-    foreach (THEME_FILES as $name) {
+    // Earlier published revisions bundled Inter in TrueType format.
+    foreach ([...THEME_FILES, 'assets/Inter-Variable.ttf'] as $name) {
         $path = "$dir/$name";
         if (str_starts_with($name, 'assets/') && is_link("$dir/assets")) {
             continue;

@@ -1,6 +1,6 @@
 # Spec UI
 
-A panel theme for Spec Development on Pterodactyl Panel 1.x. Spec UI uses vanilla CSS, bundled Inter typography and the Spec Development mark.
+A panel theme for Spec Development on Pterodactyl Panel 1.x. Spec UI uses vanilla CSS, a bundled Inter variable font in WOFF2 format and the Spec Development mark.
 
 ## Local previews
 
